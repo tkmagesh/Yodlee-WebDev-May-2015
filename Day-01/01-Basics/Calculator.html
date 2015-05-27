@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <style>
+        .result{
+            font-size: 28pt;
+        }
+        .positive {
+            color : green;
+        }
+        .negative {
+            color : red;
+        }
+
+    </style>
+    <script>
+        window.addEventListener("DOMContentLoaded", init);
+        function init(){
+            document.getElementById("btnCalculate").addEventListener("click", onBtnCalculateClick);
+        }
+        var operations = {
+            '+' : function(n1, n2){ return n1 + n2;},
+            '-' : function(n1, n2){ return n1 - n2;},
+            '*' : function(n1, n2){ return n1 * n2;},
+            '/' : function(n1, n2){ return n1 / n2;}
+        };
+        function onBtnCalculateClick(){
+            var number1 = parseInt(document.getElementById("txtNumber1").value,10),
+                number2 = parseInt(document.getElementById("txtNumber2").value,10),
+                operator = document.getElementById("selectOperation").value;
+
+            var result = operations[operator](number1, number2);
+
+            /*switch (operation){
+                case "+":
+                    result = number1 + number2;
+                    break;
+                case "-":
+                    result = number1 - number2;
+                    break;
+                case "*":
+                    result = number1 * number2;
+                    break;
+                case "/":
+                    result = number1 / number2;
+                    break;
+            }*/
+            document.getElementById("divResult").innerHTML = result;
+            if (result < 0){
+                document.getElementById("divResult").className = "negative";
+            } else {
+                document.getElementById("divResult").className = "positive";
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <input type="text" name="" id="txtNumber1">
+    <select name="" id="selectOperation">
+        <option value="+"*>add</option>
+        <option value="-">subtract</option>
+        <option value="*">multiply</option>
+        <option value="/">divide</option>
+    </select>
+    <input type="text" name="" id="txtNumber2">
+    <input type="button" value="Calculate" id="btnCalculate">
+    <div id="divResult" class="result positive">[Result]</div>
+</body>
+</html>

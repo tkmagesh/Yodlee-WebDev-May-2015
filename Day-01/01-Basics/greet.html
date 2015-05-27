@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Greet</title>
+       <script>
+        function printGreet(){
+           var txtName = document.getElementById("txtName");
+           var name = txtName.value;
+           var msg = "Hi " + name;
+           var divMessage = document.getElementById("divMessage");
+           divMessage.innerText = msg;
+        }
+        function initialize(){
+            var btn = document.getElementById("btnGreet")
+            btn.addEventListener("click", printGreet);
+        }
+        window.addEventListener("DOMContentLoaded", initialize);
+        </script>
+</head>
+<body>
+   <h1>Greet</h1>
+   <hr>
+    <label for="txtName">Name :</label>
+    <input type="text" name="" id="txtName">
+    <input type="button" value="Greet" id="btnGreet">
+    <div id="divMessage">[Greet Message]</div>
+</body>
+</html>
