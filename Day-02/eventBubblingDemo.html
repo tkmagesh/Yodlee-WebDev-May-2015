@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style>
+            div{
+                border : 2px solid;
+                margin: 10px;
+                padding: 10px;
+            }
+            #first{
+                border-color: blue;
+                background-color: lightblue;
+            }
+            #second{
+                border-color: red;
+                background-color: lightpink;
+            }
+            #third{
+                border-color: darkorange;
+                background-color: lightyellow;
+            }
+        </style>
+        <script>
+            window.addEventListener("DOMContentLoaded", init);
+            function init(){
+                var allNodes = document.querySelectorAll("*");
+                for(var i=0; i<allNodes.length; i++){
+                    allNodes[i].addEventListener("click", onNodeClick);
+                }
+            }
+            function onNodeClick(evtArg){
+                console.dir(this);
+                if (this.id === "first")
+                    evtArg.stopPropagation()
+            }
+        </script>
+    </head>
+    <body>
+        <div id="first">
+            <span>This is the first</span>
+            <div id="second">
+               <span>This is the second</span>
+                <div id="third">
+                    <span>This is the third</span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

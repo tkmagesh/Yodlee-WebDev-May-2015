@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+    <script type="text/usecase">
+        1. Display a list of tasks - done
+        2. Add new tasks - done
+        3. Toggle the status of tasks ("completed/incomplete") - done
+        4. Remove completed tasks - done
+        5. Display stats (# of completed tasks / total number of tasks)
+        6. Persist the tasks in the local storage
+        7. Make the application available offline
+        8. Persist the tasks in the server
+        9. Make the application realtime
+        10. Make the app accessible in mobile devices
+    </script>
+    <style>
+        .completed{
+            color : red;
+            text-decoration: line-through;
+            font-style: italic;
+            font-weight: bold;
+        }
+        li{
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        window.addEventListener("DOMContentLoaded", init);
+
+        function init(){
+            var btnAdd = document.getElementById("btnAdd");
+            btnAdd.addEventListener("click", onBtnAddClick);
+
+            var btnRemoveCompleted = document.getElementById("btnRemoveCompleted");
+            btnRemoveCompleted.addEventListener("click", onBtnRemoveCompletedClick);
+
+            var olTaskList = document.getElementById("olTaskList");
+            olTaskList.addEventListener("click", onTaskItemClick);
+        }
+        function onBtnRemoveCompletedClick(){
+            var olTaskList = document.getElementById("olTaskList");
+            for(var i=olTaskList.children.length-1; i >= 0; i--){
+                var taskItem = olTaskList.children[i];
+                if (taskItem.classList.contains("completed"))
+                    taskItem.remove();
+            }
+        }
+        function onTaskItemClick(evtArg){
+            var taskItem = evtArg.target;
+            taskItem.classList.toggle("completed");
+        }
+        function onBtnAddClick(){
+            var txtTask = document.getElementById("txtTask");
+            var taskName = txtTask.value;
+            var newTaskItem = "<li>" + taskName + "</li>";
+            //var newTaskItem = document.createElement("li");
+            //newTaskItem.innerText = taskName;
+
+
+            var olTaskList = document.getElementById("olTaskList");
+            olTaskList.innerHTML += newTaskItem;
+            //olTaskList.innerHTML = olTaskList.innerHTML + newTaskItem;
+            //olTaskList.appendChild(newTaskItem);
+        }
+    </script>
+
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <hr>
+    <label for="">Task :</label>
+    <input type="text" name="" id="txtTask">
+    <input type="button" value="Add Task" id="btnAdd">
+    <input type="button" value="Remove Completed" id="btnRemoveCompleted">
+    <ol id="olTaskList">
+        <li>Watch a movie</li>
+        <li class="completed">Plan for dinner</li>
+    </ol>
+</body>
+</html>
