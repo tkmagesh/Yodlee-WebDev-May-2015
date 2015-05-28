@@ -27,52 +27,54 @@
         }
     </style>
     <script>
-        window.addEventListener("DOMContentLoaded", init);
+        (function(){
+            window.addEventListener("DOMContentLoaded", init);
 
-        function init(){
-            var btnAdd = document.getElementById("btnAdd");
-            btnAdd.addEventListener("click", onBtnAddClick);
+            function init(){
+                var btnAdd = document.getElementById("btnAdd");
+                btnAdd.addEventListener("click", onBtnAddClick);
 
-            var btnRemoveCompleted = document.getElementById("btnRemoveCompleted");
-            btnRemoveCompleted.addEventListener("click", onBtnRemoveCompletedClick);
+                var btnRemoveCompleted = document.getElementById("btnRemoveCompleted");
+                btnRemoveCompleted.addEventListener("click", onBtnRemoveCompletedClick);
 
-            var olTaskList = document.getElementById("olTaskList");
-            for(var i=0; i<olTaskList.children.length; i++)
-            {
-                var taskItem = olTaskList.children[i];
-                taskItem.addEventListener("click", onTaskItemClick);
+                var olTaskList = document.getElementById("olTaskList");
+                for(var i=0; i<olTaskList.children.length; i++)
+                {
+                    var taskItem = olTaskList.children[i];
+                    taskItem.addEventListener("click", onTaskItemClick);
+                }
             }
-        }
-        function onBtnRemoveCompletedClick(){
-            var olTaskList = document.getElementById("olTaskList");
-            for(var i=olTaskList.children.length-1; i >= 0; i--){
-                var taskItem = olTaskList.children[i];
-                if (taskItem.classList.contains("completed"))
-                    taskItem.remove();
+            function onBtnRemoveCompletedClick(){
+                var olTaskList = document.getElementById("olTaskList");
+                for(var i=olTaskList.children.length-1; i >= 0; i--){
+                    var taskItem = olTaskList.children[i];
+                    if (taskItem.classList.contains("completed"))
+                        taskItem.remove();
+                }
             }
-        }
-        function onTaskItemClick(evtArg){
-            var taskItem = evtArg.target;
-            /*if (taskItem.classList.contains("completed")){
-                taskItem.classList.remove("completed");
-            } else {
-                taskItem.classList.add("completed");
-            }*/
-            taskItem.classList.toggle("completed");
-        }
-        function onBtnAddClick(){
-            var txtTask = document.getElementById("txtTask");
-            var taskName = txtTask.value;
-            //var newTaskItem = "<li>" + taskName + "</li>";
-            var newTaskItem = document.createElement("li");
-            newTaskItem.innerText = taskName;
-            newTaskItem.addEventListener("click", onTaskItemClick);
+            function onTaskItemClick(evtArg){
+                var taskItem = evtArg.target;
+                /*if (taskItem.classList.contains("completed")){
+                    taskItem.classList.remove("completed");
+                } else {
+                    taskItem.classList.add("completed");
+                }*/
+                taskItem.classList.toggle("completed");
+            }
+            function onBtnAddClick(){
+                var txtTask = document.getElementById("txtTask");
+                var taskName = txtTask.value;
+                //var newTaskItem = "<li>" + taskName + "</li>";
+                var newTaskItem = document.createElement("li");
+                newTaskItem.innerText = taskName;
+                newTaskItem.addEventListener("click", onTaskItemClick);
 
-            var olTaskList = document.getElementById("olTaskList");
-            //olTaskList.innerHTML += newTaskItem;
-            //olTaskList.innerHTML = olTaskList.innerHTML + newTaskItem;
-            olTaskList.appendChild(newTaskItem);
-        }
+                var olTaskList = document.getElementById("olTaskList");
+                //olTaskList.innerHTML += newTaskItem;
+                //olTaskList.innerHTML = olTaskList.innerHTML + newTaskItem;
+                olTaskList.appendChild(newTaskItem);
+            }
+        })();
     </script>
 
 </head>
