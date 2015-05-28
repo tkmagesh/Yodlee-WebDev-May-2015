@@ -35,6 +35,8 @@
                 btnAdd = null,
                 btnRemoveCompleted = null;
 
+            var taskCount = 0;
+
             function init(){
                 btnAdd = document.getElementById("btnAdd");
                 btnAdd.addEventListener("click", onBtnAddClick);
@@ -45,10 +47,9 @@
                 olTaskList = document.getElementById("olTaskList");
                 olTaskList.addEventListener("click", onTaskItemClick);
 
-                var tasksFromStorage = taskStorage.getAll();
-                for(var i=0; i<tasksFromStorage.length; i++)
-                    addTaskToList(tasksFromStorage[i]);
+                taskStorage.getAll();
             }
+
             function onBtnRemoveCompletedClick(){
                 for(var i=olTaskList.children.length-1; i >= 0; i--){
                     var taskItem = olTaskList.children[i];
@@ -64,15 +65,22 @@
                 taskStorage.toggle(taskItem.getAttribute("taskId"));
                 taskItem.classList.toggle("completed");
             }
+            taskStorage.addListenerForNewTask( function(newTask){
+                addTaskToList(newTask);
+            });
+            taskStorage.addListenerForNewTask( function(newTask){
+                ++taskCount;
+                document.getElementById("taskCount").innerHTML = taskCount;
+            });
             function onBtnAddClick(){
                 var txtTask = document.getElementById("txtTask");
                 var taskName = txtTask.value;
                 var newTask = taskStorage.add(taskName);
-                addTaskToList(newTask);
+
             }
             function addTaskToList(taskObj){
                 var newTaskItem = document.createElement("li");
-                newTaskItem.innerText = taskObj.name;
+                newTaskItem.innerHTML = taskObj.name;
                 newTaskItem.setAttribute("taskId", taskObj.id);
                 if(taskObj.isCompleted)
                     newTaskItem.classList.add("completed");
@@ -86,6 +94,7 @@
 <body>
     <h1>Task Manager</h1>
     <hr>
+    <h3 id="taskCount"></h3>
     <label for="">Task :</label>
     <input type="text" name="" id="txtTask">
     <input type="button" value="Add Task" id="btnAdd">
