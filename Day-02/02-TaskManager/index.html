@@ -29,49 +29,57 @@
     <script>
         (function(){
             window.addEventListener("DOMContentLoaded", init);
+            var olTaskList = null,
+                btnAdd = null,
+                btnRemoveCompleted = null;
 
             function init(){
-                var btnAdd = document.getElementById("btnAdd");
+                btnAdd = document.getElementById("btnAdd");
                 btnAdd.addEventListener("click", onBtnAddClick);
 
-                var btnRemoveCompleted = document.getElementById("btnRemoveCompleted");
+                btnRemoveCompleted = document.getElementById("btnRemoveCompleted");
                 btnRemoveCompleted.addEventListener("click", onBtnRemoveCompletedClick);
 
-                var olTaskList = document.getElementById("olTaskList");
-                for(var i=0; i<olTaskList.children.length; i++)
-                {
-                    var taskItem = olTaskList.children[i];
-                    taskItem.addEventListener("click", onTaskItemClick);
+                olTaskList = document.getElementById("olTaskList");
+                olTaskList.addEventListener("click", onTaskItemClick);
+                /*Storage*/
+                for(var i=0; i<localStorage.length; i++){
+                    var taskId = localStorage.key(i);
+                    var taskName = localStorage.getItem(taskId);
+                    addTaskToList(taskId, taskName);
                 }
+                /************/
             }
             function onBtnRemoveCompletedClick(){
-                var olTaskList = document.getElementById("olTaskList");
                 for(var i=olTaskList.children.length-1; i >= 0; i--){
                     var taskItem = olTaskList.children[i];
-                    if (taskItem.classList.contains("completed"))
+                    if (taskItem.classList.contains("completed")){
+                        /*Remove from Stroage */
+                        var key = taskItem.getAttribute("taskId");
+                        localStorage.removeItem(key);
+                        /******************/
                         taskItem.remove();
+                    }
                 }
             }
             function onTaskItemClick(evtArg){
                 var taskItem = evtArg.target;
-                /*if (taskItem.classList.contains("completed")){
-                    taskItem.classList.remove("completed");
-                } else {
-                    taskItem.classList.add("completed");
-                }*/
                 taskItem.classList.toggle("completed");
             }
             function onBtnAddClick(){
                 var txtTask = document.getElementById("txtTask");
                 var taskName = txtTask.value;
-                //var newTaskItem = "<li>" + taskName + "</li>";
+
+                /*Storage*/
+                var taskId = Date.now().toString();
+                localStorage.setItem(taskId, taskName);
+                /**************/
+                addTaskToList(taskId, taskName);
+            }
+            function addTaskToList(taskId, taskName){
                 var newTaskItem = document.createElement("li");
                 newTaskItem.innerText = taskName;
-                newTaskItem.addEventListener("click", onTaskItemClick);
-
-                var olTaskList = document.getElementById("olTaskList");
-                //olTaskList.innerHTML += newTaskItem;
-                //olTaskList.innerHTML = olTaskList.innerHTML + newTaskItem;
+                newTaskItem.setAttribute("taskId", taskId);
                 olTaskList.appendChild(newTaskItem);
             }
         })();
@@ -86,8 +94,7 @@
     <input type="button" value="Add Task" id="btnAdd">
     <input type="button" value="Remove Completed" id="btnRemoveCompleted">
     <ol id="olTaskList">
-        <li>Watch a movie</li>
-        <li class="completed">Plan for dinner</li>
+
     </ol>
 </body>
 </html>
