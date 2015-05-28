@@ -48,8 +48,6 @@
                 var tasksFromStorage = taskStorage.getAll();
                 for(var i=0; i<tasksFromStorage.length; i++)
                     addTaskToList(tasksFromStorage[i]);
-
-                /************/
             }
             function onBtnRemoveCompletedClick(){
                 for(var i=olTaskList.children.length-1; i >= 0; i--){
@@ -63,6 +61,7 @@
             }
             function onTaskItemClick(evtArg){
                 var taskItem = evtArg.target;
+                taskStorage.toggle(taskItem.getAttribute("taskId"));
                 taskItem.classList.toggle("completed");
             }
             function onBtnAddClick(){
@@ -75,7 +74,10 @@
                 var newTaskItem = document.createElement("li");
                 newTaskItem.innerText = taskObj.name;
                 newTaskItem.setAttribute("taskId", taskObj.id);
+                if(taskObj.isCompleted)
+                    newTaskItem.classList.add("completed");
                 olTaskList.appendChild(newTaskItem);
+
             }
         })();
     </script>
