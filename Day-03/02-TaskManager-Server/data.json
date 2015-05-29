@@ -1,0 +1,19 @@
+{
+    "tasks" : [
+        {
+            "id" : 1,
+            "name" : "Watch a movie",
+            "isCompleted" : false
+        },
+        {
+            "id" : 2,
+            "name" : "Explore Bangalore",
+            "isCompleted" : false
+        },
+        {
+            "id" : 3,
+            "name" : "Visit NASA",
+            "isCompleted" : true
+        }
+    ]
+}
