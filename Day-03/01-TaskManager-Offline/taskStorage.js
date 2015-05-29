@@ -6,8 +6,8 @@ var taskStorage = (function(){
             var taskId = localStorage.key(i);
             var taskDataAsString = localStorage.getItem(taskId);
             var obj = JSON.parse(taskDataAsString);
-            for(var i=0; i<addedCallbacks.length; i++){
-                var callback = addedCallbacks[i];
+            for(var j=0; j<addedCallbacks.length; j++){
+                var callback = addedCallbacks[j];
                 callback(obj);
             }
         }
