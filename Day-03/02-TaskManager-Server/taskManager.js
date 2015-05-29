@@ -16,7 +16,17 @@
         olTaskList = document.getElementById("olTaskList");
         olTaskList.addEventListener("click", onTaskItemClick);
 
-        taskStorage.getAll();
+        var req = new XMLHttpRequest();
+        req.addEventListener("readystatechange", function(){
+            if (req.readyState === 4 && req.status === 200){
+                var dataAsString = req.responseText;
+                var tasks = JSON.parse(dataAsString);
+                for(var i=0; i<tasks.length; i++)
+                    addTaskToList(tasks[i]);
+            }
+        });
+        req.open("GET", "http://localhost:3000/tasks", true);
+        req.send();
     }
 
     function onBtnRemoveCompletedClick(){
