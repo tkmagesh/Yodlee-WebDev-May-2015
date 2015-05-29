@@ -19,6 +19,21 @@
       "name": "Fix the bugs",
       "isCompleted": false,
       "id": 4
+    },
+    {
+      "name": "Submit timesheet",
+      "isCompleted": false,
+      "id": 5
+    },
+    {
+      "name": "Fill appraisal forms",
+      "isCompleted": false,
+      "id": 6
+    },
+    {
+      "name": "Juz one more new task",
+      "isCompleted": true,
+      "id": 7
     }
   ]
 }

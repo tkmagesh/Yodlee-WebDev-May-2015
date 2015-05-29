@@ -1,3 +1,5 @@
+
+
 (function(){
     window.addEventListener("DOMContentLoaded", init);
     var olTaskList = null,
@@ -16,17 +18,11 @@
         olTaskList = document.getElementById("olTaskList");
         olTaskList.addEventListener("click", onTaskItemClick);
 
-        var req = new XMLHttpRequest();
-        req.addEventListener("readystatechange", function(){
-            if (req.readyState === 4 && req.status === 200){
-                var dataAsString = req.responseText;
-                var tasks = JSON.parse(dataAsString);
-                for(var i=0; i<tasks.length; i++)
-                    addTaskToList(tasks[i]);
-            }
+        taskService.getAll(function(tasks){
+            tasks.forEach(function(task){
+                addTaskToList(task);
+            });
         });
-        req.open("GET", "http://localhost:3000/tasks", true);
-        req.send();
     }
 
     function onBtnRemoveCompletedClick(){
@@ -34,28 +30,27 @@
             var taskItem = olTaskList.children[i];
             if (taskItem.classList.contains("completed")){
                 var key = taskItem.getAttribute("taskId");
-                taskStorage.remove(key);
+                //taskStorage.remove(key);
                 taskItem.remove();
             }
         }
     }
     function onTaskItemClick(evtArg){
         var taskItem = evtArg.target;
-        taskStorage.toggle(taskItem.getAttribute("taskId"));
+        //taskStorage.toggle(taskItem.getAttribute("taskId"));
         taskItem.classList.toggle("completed");
+        var task = {
+            id : taskItem.getAttribute("taskId"),
+            name : taskItem.innerHTML,
+            isCompleted : taskItem.classList.contains("completed")
+        }
+
     }
-    taskStorage.addListenerForNewTask( function(newTask){
-        addTaskToList(newTask);
-    });
-    taskStorage.addListenerForNewTask( function(newTask){
-        ++taskCount;
-        document.getElementById("taskCount").innerHTML = taskCount;
-    });
+
     function onBtnAddClick(){
         var txtTask = document.getElementById("txtTask");
         var taskName = txtTask.value;
-        var newTask = taskStorage.add(taskName);
-
+        taskService.add(taskName, addTaskToList);
     }
     function addTaskToList(taskObj){
         var newTaskItem = document.createElement("li");
